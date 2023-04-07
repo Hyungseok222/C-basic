@@ -1,0 +1,19 @@
+//처음 두개 배열요소만 초기화 된 상태에서 나머지 배열요소는 전 배열요소 두개의 합으로 구성되도록 생성 후 출력
+
+#include<stdio.h>
+
+int main(void) {
+
+	int ary[10] = { 1,2 };
+	int i;
+
+	for (i = 2; i < 10; i++) {
+		ary[i] = ary[i-2] + ary[i-1];
+	}
+
+	for (i = 0; i < 10; i++) {
+		printf("%d\n",ary[i]);
+	}
+
+	return 0;
+}
