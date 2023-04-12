@@ -1,0 +1,45 @@
+#include<stdio.h>
+
+// 포인터로 pa모든 배열 요소와 평균을 출력하는 코드 작성
+
+int main(void) {
+
+	double ary[5] = { 1.2, 3.5, 7.4, 0.5, 10.0 };
+	double* pa = ary;
+	double* pb = ary + 2;
+	double total = 0;
+	int i;
+
+	printf("배열 요소의 값: %.1lf   %.1lf   %.1lf   %.1lf   %.1lf \n", *pa, *(pa+1), *(pa+2), *(pa+3), *(pa+4));
+
+	for (i = 0; i < 5; i++) {
+		total += *pa;
+		pa++;
+	}
+	double avg = total / 5;
+	printf("평균: %.1lf", avg);
+
+	return 0;
+}
+
+// 배열 요소의 위치를 데칼코마니 형식으로 바꾸기
+int main(void) {
+	int ary[] = { 10, 20, 30, 40, 50 };
+	int size = sizeof(ary) / sizeof(ary[0]);
+	int* pa = ary;
+	int* pb = ary + (size-1);
+	int temp, i;
+
+	while (pa < pb) {
+		temp = *pa;
+		*pa = *pb;
+		*pb = temp;
+		pa++;
+		pb--;
+	}
+	for (i = 0; i < size; i++) {
+		printf("%d  ", ary[i]);
+	}
+
+	return 0;
+}
