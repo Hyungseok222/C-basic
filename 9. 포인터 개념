@@ -1,0 +1,110 @@
+#include<stdio.h>
+/*
+
+// 포인터 이용해서 입력받은 수를 4로 나눴을때 나머지와 몫 구하기
+
+void func(int* pa,int* pb);
+
+int main(void) {
+
+	int mod, rem; // 1. 몫과 나머지가 들어갈 변수 미리 선언
+	
+	func(&mod, &rem); // 2. 선언된 변수 주소를 함수로 보냄
+	printf("몫:%d, 나머지:%d", mod, rem); // 6. 계산된 몫과 나머지 출력
+
+	return 0;
+}
+
+void func(int* pa, int* pb) {    // 3. 해당 변수 주소를 포인터로 받음
+	int fst;
+	printf("양수 입력:");
+	scanf_s("%d", &fst); // 4. 나누기 대상 수를 입력
+	*pa = fst / 4;  // 5. 포인터가 지정하고 있는 주소에 계산 값을 입력
+	*pb = fst % 4;
+}*/
+
+
+
+
+
+
+
+
+
+// 3개 실수 받아서 포인터 이용해서 크기 순서대로 출력하기
+
+void swap(double* pa, double* pb);
+void line_up(double* maxp, double* midp, double* minp);
+
+int main(void) {
+	double max, mid, min;
+
+	printf("실수값 3개 입력:");
+	scanf_s("%lf %lf %lf", &max, &mid, &min);
+	line_up(&max, &mid, &min);
+	printf("정렬된 값 출력: %.1lf, %.1lf, %.1lf\n", max, mid, min);
+
+	return 0;
+}
+
+void swap(double* pa, double* pb) {
+	double temp;
+	
+	temp = *pa;
+	*pa = *pb;
+	*pb = temp;
+}
+
+void line_up(double* maxp, double* midp, double* minp) {
+
+
+	double ary[3] = {*maxp, *midp, *minp};
+
+	while (! (*maxp > *midp && *midp > *minp && *maxp > *minp)) { // while문에서 !로 부정 사용 가능
+		if (*maxp < *midp) {
+			swap(maxp, midp);
+		}
+		else if (*midp < *minp) {
+			swap(midp, minp);
+		}
+	}
+
+	return 0;
+}
+
+
+
+
+
+
+
+// 엔터키를 누르면 숫자 3개를 왼쪽에서부터 순서대로 회전시키는 코드 작성, 엔터 이외 키 누르면 종료.
+void rotate(int* pa, int* pb, int* pc);
+
+int main(void) {
+
+	int a = 1;
+	int b = 2;
+	int c = 3;
+	char input;   // getchar()라는 내장함수를 이용해서 콘솔창에서 뭘 받는지 캐치해야함.
+
+	while (1) {
+		printf("%d %d %d", a, b, c);
+		input = getchar();
+		if (input == '\n') {
+			rotate(&a, &b, &c);
+		}
+		else{
+			break;
+		}
+	}
+	
+	return 0;
+}
+
+void rotate(int* pa, int* pb, int* pc) {
+	int temp = *pa;
+	*pa = *pb;
+	*pb = *pc;
+	*pc = temp;   // 포인터를 이용해 각자 값을 변경해줌.
+}
