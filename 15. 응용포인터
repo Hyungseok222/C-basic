@@ -46,3 +46,36 @@ int count_num(int (*pa)[4], int (*pb)[4], int (*pt)[2]) { // int형 요소 4개�
 
 	return cnt;
 }
+
+
+// 연습문제 5 - 5개 문자열 받아서 입출력함수에서 처리 후 출력하는 프로그램
+
+#include<stdio.h>
+void input_chr(char(*pary)[79]);
+void output_chr(char(*pbry)[79]);
+
+int main(void) {
+
+	char ary[5][79];
+	printf("다섯 개의 문장을 입력하시오.\n");
+	input_chr(ary);
+	out_put(ary);
+
+	return 0;
+}
+
+void input_chr(char(*pary)[79]) {
+	for (int i = 0; i < 5; i++) {
+		scanf_s("%s", pary[i][79]);
+	}
+}
+
+void output_chr(char(*pbry)[79]) {
+	printf("\n입력한 문장은...\n");
+	for (int i = 0; i < 5; i++) {
+		printf("%s", pbry[i][79]);
+	}
+} 
+// 수정 필요 !
+
+
