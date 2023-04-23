@@ -1,0 +1,48 @@
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<        15.1 2중 포인터, 배열 포인터           >>>>>>>>>>>>>>>>>>>>
+
+//연습문제 4번 - 초기화된 2개의 2차원배열에서 같은 위치에 같은 값이 있는 경우 그 수를 세어 출력. 배열의 행,열 위치도 출력.
+
+#include<stdio.h>
+int count_num(int (*pa)[4], int(*pb)[4], int(*pt)[2]);
+
+int main(void) {
+
+	int ary1[3][4] = {
+		{15,3,9,11},
+		{23,7,10,12},
+		{0,17,55,24}
+	};
+	int ary2[3][4] = {
+		{13,8,9,15},
+		{23,0,10,11},
+		{29,17,43,3}
+	};
+	int same_num[12][2];
+	int i, cnt;
+
+	cnt = count_num(ary1, ary2, same_num);
+	printf("일치하는 번호의 수:%d\n", cnt);
+	printf("배열에서의 위치(행,열):...\n");
+	for (i = 0; i < cnt; i++) {
+		printf("(%d, %d)\n", same_num[i][0], same_num[i][1]);
+	}
+
+	return 0;
+}
+
+int count_num(int (*pa)[4], int (*pb)[4], int (*pt)[2]) { // int형 요소 4개를 받을 수 있는 배열포인터 선언(2차원 배열 받을 때 사용)
+	int cnt=0;
+	int i,j;
+
+	for (i = 0; i < 3; i++) {
+		for (j = 0; j < 4; j++) {
+			if (pa[i][j] == pb[i][j]) {
+				pt[cnt][0] = i;
+				pt[cnt][1] = j;
+				cnt += 1;
+			}
+		}
+	}
+
+	return cnt;
+}
