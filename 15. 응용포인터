@@ -107,4 +107,84 @@ void output_chr(char(*pbry)[79]) {
 } 
 // 수정 필요 !
 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<    15.2 포인터 함수    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+
+// 포인터 함수를 쓰는 대표적 예시 - 비슷한 연산을 하는 함수 여러개를 사용할 때(c++로 치면 클래스 느낌!)
+
+void func(int (*fp)(int, int));
+int sum(int a, int b);
+int mul(int a, int b);
+int max(int a, int b);
+
+int main(void) {
+	int sel;  //입력받은 '선택된 작업 메뉴 번호' 저장
+
+	printf("1. 두 정수의 합\n");
+	printf("2. 두 정수의 곱\n");
+	printf("3. 두 정수중 큰 수 출력\n");
+	printf("원하는 작업 선택:");
+
+	scanf_s("%d", &sel);
+
+	switch (sel) {
+	case 1: func(sum); break;
+	case 2: func(mul); break;
+	case 3: func(max); break;
+	}
+	return 0;
+}
+
+void func(int (*fp)(int, int)) {
+	int a, b;
+	int res;
+
+	printf("두 정수값을 입력하세요: ");
+	scanf_s("%d %d", &a, &b);
+	res = fp(a, b);     // fp에서 받은 함수의 주소로 전달 후 연산된 값을 res에 저장,
+	printf("결과값은 :%d\n", res);
+}
+
+int sum(int a, int b) {
+	return (a + b);
+}
+
+int mul(int a, int b) {
+	return (a * b);
+}
+
+int max(int a, int b) {
+	if (a > b) {
+		return a;
+	}
+	else {
+		return b;
+	}
+}
+
+// 연습문제 5번 - exchange 함수와 func(포인터 함수)를 만들어 받은 인수 값을 출력하고 두 값을 바꾼 후에 다시 출력하도록 하는 프로그램.
+
+void exchange(double*, double*);
+void func(void (*fp)(double*, double*), double, double);
+
+int main(void) {
+	double a = 10, b = 20;
+
+	func(exchange, a, b);
+
+	return 0;
+}
+
+void exchange(double* pa, double* pb) {
+	double pt;
+	pt = *pa; // 아예 해당 주소의 값을 바꿔버려야 함.              =====>    주소를 바꾸는건 왜 안됨?
+	*pa = *pb;
+	*pb = pt;
+}
+
+void func(void (*fp)(double*, double*), double a, double b) {  // 함수 정의할때만 매개변수에 받을 변수 추가해주면 됨.
+	double f = a, s = b;
+	printf("a: %.1lf b: %.1lf\n", f, s);
+	fp(&f,&s); // 각 실수의 주소를 보내야 함.
+	printf("a: %.1lf b: %.1lf", f, s);
+}
