@@ -1,0 +1,105 @@
+// 벡터 계산을 떠올리면 쉽다.
+
+#include <iostream>
+using namespace std;
+
+class Vector {
+private:
+	int x, y;
+	char* name;
+	int length;
+public:
+	Vector(); // 생성자
+	Vector(int _x, int _y, const char* _name); // 생성자 오버로딩
+
+	//생성자에서 동적할당으로 받는 경우가 생기면, 소멸자에서 메모리 삭제해야함.
+	//복사 생성자
+	Vector(const Vector& k); //인자로 받는 객체 내용 변경하지 않으므로 const 사용 
+	~Vector(); // 소멸자
+
+	float GetX(); // x값 반환 함수
+	float GetY(); // y값 반환 함수
+	char GetName();
+
+	Vector operator + (const Vector k); // 연산자 오버로딩(객체 하나를 인자로 받아야함)
+	Vector operator - (const Vector k);
+	Vector operator * (const float k); // 벡터에 곱할 상수를 인자로 받음
+};
+
+// 생성자, 소멸자, 함수, 연산자 정의
+Vector::Vector() {
+	x = 0;
+	y = 0;
+
+	length = 1;
+	name = new char[length]; // 1 배열 크기만큼 동적할당
+	strcpy_s(name, length, ""); // 공백 문자 대입
+}
+
+Vector::Vector(int _x, int _y, const char* _name) {
+	x = _x;
+	y = _y;
+
+	length = strlen(_name) + 1;
+	name = new char[length];
+	strcpy_s(name, length, _name); // 문자배열 동적할당 후 받은 문자 대입
+}
+
+Vector::Vector(const Vector& k) { // 복사의 대상이 객체 k임. (동적할당으로 인해 깊은복사 필요 시 사용)
+	x = k.x;
+	y = k.y;
+
+	length = strlen(k.name) + 1;
+	name = new char[length];
+	strcpy_s(name, length, k.name);
+}
+
+Vector::~Vector() {
+	delete[] name;
+	length = 0;
+	name = NULL;
+}
+
+float Vector::GetX() {
+	return x;
+}
+float Vector::GetY() {
+	return y;
+}
+
+char Vector::GetName() {
+	return *name;
+}
+
+Vector Vector::operator + (const Vector k) { // 여기서 k는 객체.
+	return Vector(x + k.x, y + k.y, name); 
+	// 기존 벡터에 저장된 첫 객체의 x값과 
+	// 인자로 받은 k 객체의 x값을 더해 새로운 객체를 만들어 반환한다.
+}
+
+Vector Vector::operator - (const Vector k) {
+	return Vector(x - k.x, y - k.y, name);
+}
+
+Vector Vector::operator * (const float k) {
+	return Vector(k * x, k * y, name);
+}
+
+
+
+int main() {
+	Vector o(); // 디폴트 생성자 객체 생성
+	Vector a(1, 2,"first"); // 객체 생성
+	Vector b(2, 2,"second");
+	Vector d(a); // 복사 객체(복사생성자 이용) 생성
+	Vector c = a.operator+(b);  // 연산자 오버로딩이용 벡터 계산
+	Vector c1 = b.operator-(a);
+	Vector c2 = a.operator*(3);
+
+	cout << "a(1,2) + b(2,2) = (" << c.GetX() << "," << c.GetY() << ")" << "   a의 이름 = " << a.GetName() << endl;
+	cout << "b(2,2) - a(1,2) = (" << c1.GetX() << "," << c1.GetY() << ")" << "   b의 이름 = " << b.GetName() << endl;
+	cout << "a(1,2) * 3 = (" << c2.GetX() << "," << c2.GetY() << ")" << endl;
+	cout << "d(a의 복사객체) = (" << d.GetX() << "," << d.GetY() << ")" << "   d의 이름 = " << d.GetName() << endl;
+
+	return 0;
+}
